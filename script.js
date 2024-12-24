@@ -21,10 +21,10 @@ const themes = {
 let currentTheme = 'github';
 
 // 添加当前用户变量
-let currentUser = 'linexy';
+//let currentUser = 'linexy';
 
 // 修改全局变量
-let currentDomain = 'https://memos.lzsay.com';
+let currentDomain = 'https://exp.com';
 
 function formatDate(date) {
     return d3.timeFormat('%Y-%m-%d')(date);
@@ -37,12 +37,8 @@ async function fetchMemosData(year, domain) {
     }
 
     try {
-        // 确保域名格式正确
         const cleanDomain = domain.trim().replace(/\/$/, '');
         const response = await fetch(`${cleanDomain}/api/v1/memo?creatorId=1&limit=1000`);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
         const data = await response.json();
         
         // 按年份过滤和处理数据
@@ -59,7 +55,6 @@ async function fetchMemosData(year, domain) {
         return yearData;
     } catch (error) {
         console.error('获取数据失败:', error);
-        alert(`获取数据失败: ${error.message}`);
         return {};
     }
 }
