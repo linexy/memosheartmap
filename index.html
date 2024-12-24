@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memos 发布热力图</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Memos 发布热力图</h1>
+        <div class="user-input-container">
+            <div class="input-group">
+                <label class="input-label">Memos网址：</label>
+                <input type="text" id="userInput" placeholder="输入 Memos 域名，如：https://memos.lzsay.com" value="https://memos.lzsay.com">
+            </div>
+            <button id="generateBtn" class="generate-btn">生成</button>
+        </div>
+        <div class="selectors-container">
+            <div class="selector-group">
+                <label class="selector-label">时间范围：</label>
+                <div class="year-range-selector">
+                    <select id="startYear"></select>
+                    <span class="separator">至</span>
+                    <select id="endYear"></select>
+                </div>
+            </div>
+            <div class="selector-group">
+                <label class="selector-label">主题：</label>
+                <select id="themeSelect"></select>
+            </div>
+        </div>
+        <div id="heatmap"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
