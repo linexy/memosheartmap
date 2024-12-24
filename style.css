@@ -1,10 +1,18 @@
+/* 添加全局样式 */
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow-x: hidden;
+}
+
 .container {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 0 20px; /* 只保留左右内边距 */
 }
 
 h1 {
