@@ -328,7 +328,7 @@ function exportToImage() {
     watermark.style.marginTop = '10px';
     watermark.style.color = '#666';
     watermark.style.fontSize = '12px';
-    watermark.textContent = `Generated from ${currentDomain}`;
+    watermark.textContent = `Generated from https://hm.lzsay.com`;
     wrapper.appendChild(watermark);
     
     // 将包装容器添加到文档中（但设置为不可见）
