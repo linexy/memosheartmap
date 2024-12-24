@@ -24,7 +24,7 @@ let currentTheme = 'github';
 //let currentUser = 'linexy';
 
 // 修改全局变量
-let currentDomain = 'https://exp.com';
+let currentDomain = 'https://example.com';
 
 function formatDate(date) {
     return d3.timeFormat('%Y-%m-%d')(date);
@@ -95,7 +95,7 @@ function createHeatmap(data, year, container) {
     svg.append('text')
         .attr('class', 'year-stats')
         .attr('x', margin.left)
-        .attr('y', 8)
+        .attr('y', 15)
         .text(`${year}: ${yearTotal} 条发布`)
         .style('font-size', '14px')
         .style('fill', '#24292f');
