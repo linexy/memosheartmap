@@ -306,8 +306,61 @@ function changeTheme(themeName) {
     }
 }
 
-// 修改初始化函数
+// 添加导出图片功能
+function exportToImage() {
+    const heatmapDiv = document.getElementById('heatmap');
+    
+    // 创建一个临时的包装容器
+    const wrapper = document.createElement('div');
+    wrapper.style.background = 'white';
+    wrapper.style.padding = '20px';
+    wrapper.style.width = 'fit-content';
+    
+    // 添加标题
+    const title = document.createElement('h2');
+    title.textContent = 'Memos 发布热力图';
+    title.style.textAlign = 'center';
+    title.style.marginBottom = '20px';
+    wrapper.appendChild(title);
+    
+    // 克隆热力图内容
+    const clone = heatmapDiv.cloneNode(true);
+    wrapper.appendChild(clone);
+    
+    // 添加水印
+    const watermark = document.createElement('div');
+    watermark.style.textAlign = 'center';
+    watermark.style.marginTop = '10px';
+    watermark.style.color = '#666';
+    watermark.style.fontSize = '12px';
+    watermark.textContent = `Generated from ${currentDomain}`;
+    wrapper.appendChild(watermark);
+    
+    // 将包装容器添加到文档中（但设置为不可见）
+    document.body.appendChild(wrapper);
+    
+    // 使用 html2canvas 将内容转换为图片
+    html2canvas(wrapper, {
+        backgroundColor: 'white',
+        scale: 2, // 提高导出图片质量
+    }).then(canvas => {
+        // 创建下载链接
+        const link = document.createElement('a');
+        link.download = `memos-heatmap-${new Date().getTime()}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        
+        // 清理临时元素
+        document.body.removeChild(wrapper);
+    });
+}
+
+// 修改初始化函数，添加导出按钮事件监听
 document.addEventListener('DOMContentLoaded', () => {
     initializeYearSelector();
     initializeGenerateButton();
+    
+    // 添加导出按钮事件监听
+    const exportBtn = document.getElementById('exportBtn');
+    exportBtn.addEventListener('click', exportToImage);
 });

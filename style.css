@@ -179,3 +179,22 @@ rect:hover {
 .generate-btn:active {
     background-color: #298e46;
 }
+
+.export-btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    background-color: #0969da;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.export-btn:hover {
+    background-color: #0858b9;
+}
+
+.export-btn:active {
+    background-color: #0747a6;
+}
