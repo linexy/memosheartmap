@@ -36,7 +36,7 @@ let currentTheme = 'github';
 //let currentUser = 'linexy';
 
 // 修改全局变量
-let currentDomain = 'https://example.com';
+let currentDomain = 'https://memos.lzsay.com';
 
 function formatDate(date) {
     return d3.timeFormat('%Y-%m-%d')(date);
