@@ -1,29 +1,185 @@
-/* 添加全局样式 */
-body {
-    margin: 0;
-    padding: 20px;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    min-height: 100vh;
+/* 添加平滑滚动 */
+html {
+    scroll-behavior: smooth;
 }
 
+/* 优化容器样式 */
 .container {
     max-width: 1200px;
-    margin: 0 auto;
-    padding: 30px;
+    margin: 30px auto;
+    padding: 40px;
     background: rgba(255, 255, 255, 0.95);
-    border-radius: 16px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
-    backdrop-filter: blur(5px);
+    border-radius: 24px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
+/* 渐变背景 */
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(120deg, #f0f4ff 0%, #e4ecfa 100%);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+/* 标题动画效果 */
 h1 {
-    margin: 0 0 30px;
-    color: #24292f;
-    font-size: 28px;
+    background: linear-gradient(120deg, #2da44e 0%, #3cc55c 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 40px;
+    font-size: 32px;
     text-align: center;
-    font-weight: 600;
     letter-spacing: -0.5px;
+}
+
+/* 输入框焦点效果 */
+#userInput {
+    padding: 12px 20px;
+    font-size: 14px;
+    border: 2px solid #e1e4e8;
+    border-radius: 12px;
+    width: 300px;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+#userInput:focus {
+    border-color: #2da44e;
+    box-shadow: 0 0 0 4px rgba(45, 164, 78, 0.1);
+    outline: none;
+    transform: translateY(-1px);
+}
+
+/* 按钮悬浮效果 */
+.generate-btn, .export-btn {
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.generate-btn {
+    background: linear-gradient(120deg, #2da44e 0%, #3cc55c 100%);
+    color: white;
+}
+
+.export-btn {
+    background: linear-gradient(120deg, #0969da 0%, #2188ff 100%);
+    color: white;
+}
+
+.generate-btn:hover, .export-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 14px rgba(0, 0, 0, 0.1);
+}
+
+/* 选择器样式优化 */
+select {
+    padding: 10px 16px;
+    border: 2px solid #e1e4e8;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.9);
+    min-width: 120px;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 16px;
+    padding-right: 32px;
+}
+
+select:hover {
+    border-color: #2da44e;
+    transform: translateY(-1px);
+}
+
+
+
+/* 提示框美化 */
+.tooltip {
+    padding: 12px 16px;
+    font-size: 13px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(4px);
+}
+
+/* 页脚样式优化 */
+.footer {
+    margin-top: 40px;
+    text-align: center;
+    color: #57606a;
+    font-size: 14px;
+    padding: 20px 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.footer a {
+    color: #0969da;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+.footer a:hover {
+    background: rgba(9, 105, 218, 0.1);
+    text-decoration: none;
+}
+
+/* 响应式优化 */
+@media (max-width: 768px) {
+    .container {
+        margin: 0;
+        padding: 20px;
+        border-radius: 0;
+    }
+    
+    .user-input-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    #userInput {
+        width: 100%;
+    }
+    
+    .selectors-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .selector-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .year-range-selector {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
+
+/* 添加加载动画 */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.generate-btn:active {
+    animation: pulse 0.3s ease;
 }
 
 #currentYear {
