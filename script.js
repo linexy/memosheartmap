@@ -38,8 +38,15 @@ async function fetchMemosData(year, domain) {
 
     try {
         const cleanDomain = domain.trim().replace(/\/$/, '');
-        const response = await fetch(`${cleanDomain}/api/v1/memo?creatorId=1&limit=1000`);
-        const data = await response.json();
+        // 先尝试 creatorId=1
+        let response = await fetch(`${cleanDomain}/api/v1/memo?creatorId=1&limit=1000`);
+        let data = await response.json();
+        
+        // 如果数据为空，则尝试 creatorId=101
+        if (!data || data.length === 0) {
+            response = await fetch(`${cleanDomain}/api/v1/memo?creatorId=101&limit=1000`);
+            data = await response.json();
+        }
         
         // 按年份过滤和处理数据
         const yearData = {};
