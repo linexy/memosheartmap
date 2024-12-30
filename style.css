@@ -12,7 +12,7 @@ body {
     flex-direction: column;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px; /* 只保留左右内边距 */
+    padding:0 20px;
 }
 
 h1 {
@@ -230,20 +230,4 @@ rect:hover {
 
 .footer a:hover {
     text-decoration: underline;
-}
-
-@media (max-width: 768px) {
-    .selectors-container {
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    .user-input-container {
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    #userInput {
-        width: 100%;
-    }
 }

@@ -24,7 +24,7 @@ let currentTheme = 'github';
 //let currentUser = 'linexy';
 
 // 修改全局变量
-let currentDomain = 'https://example.com';
+let currentDomain = 'https://memos.lzsay.com';
 
 function formatDate(date) {
     return d3.timeFormat('%Y-%m-%d')(date);
@@ -74,12 +74,6 @@ function createHeatmap(data, year, container) {
     
     // 计算年度统计
     const yearTotal = Object.values(data).reduce((sum, count) => sum + count, 0);
-    
-    // 使用 CountUp.js 库实现数字增长动画
-    new CountUp('yearTotal', 0, yearTotal, 0, 2.5, {
-        useEasing: true,
-        useGrouping: true
-    }).start();
     
     // 生成年份的所有日期
     const yearStart = new Date(year, 0, 1);
