@@ -87,11 +87,11 @@ function createHeatmap(data, year, container) {
     // 计算年度统计
     const yearTotal = Object.values(data).reduce((sum, count) => sum + count, 0);
     
-    // 使用 CountUp.js 库实现数字增长动画
-    new CountUp('yearTotal', 0, yearTotal, 0, 2.5, {
-        useEasing: true,
-        useGrouping: true
-    }).start();
+    // 直接显示统计数字，不使用 CountUp
+    const yearStats = document.createElement('div');
+    yearStats.textContent = `${year}: ${yearTotal} 条发布`;
+    yearStats.className = 'year-stats';
+    container.appendChild(yearStats);
     
     // 生成年份的所有日期
     const yearStart = new Date(year, 0, 1);
@@ -108,15 +108,6 @@ function createHeatmap(data, year, container) {
         .append('svg')
         .attr('width', width)
         .attr('height', height);
-
-    // 添加年度统计信息
-    svg.append('text')
-        .attr('class', 'year-stats')
-        .attr('x', margin.left)
-        .attr('y', 15)
-        .text(`${year}: ${yearTotal} 条发布`)
-        .style('font-size', '14px')
-        .style('fill', '#24292f');
 
     const g = svg.append('g')
         .attr('transform', `translate(${margin.left}, ${margin.top})`);
@@ -368,17 +359,13 @@ function exportToImage() {
 }
 
 // 初始化函数
-document.addEventListener('DOMContentLoaded', async () => {
-    try {
-        await initializeYearSelector();
-        await initializeGenerateButton();
-        
-        // 触发初始加载
-        const currentYear = new Date().getFullYear();
-        await updateYears([currentYear], currentDomain);
-    } catch (error) {
-        console.error('初始化失败:', error);
-    }
+document.addEventListener('DOMContentLoaded', function() {
+    initializeYearSelector();
+    initializeGenerateButton();
+    
+    // 触发初始加载
+    const currentYear = new Date().getFullYear();
+    updateYears([currentYear], currentDomain);
 });
 
 function playHoverSound() {
@@ -386,3 +373,16 @@ function playHoverSound() {
     audio.volume = 0.1;
     audio.play();
 }
+
+// 移除 loading 元素
+function hideLoading() {
+    const loading = document.getElementById('loading');
+    if (loading) {
+        loading.style.display = 'none';
+    }
+}
+
+// 在初始化完成后隐藏加载动画
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(hideLoading, 1000); // 1秒后隐藏加载动画
+});
