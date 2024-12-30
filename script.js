@@ -15,6 +15,18 @@ const themes = {
     winter: {
         empty: '#ebedf0',
         colors: ['#b6e3ff', '#54aeff', '#0969da', '#0a3069']
+    },
+    neon: {
+        empty: '#1a1a1a',
+        colors: ['#ff00ff', '#00ffff', '#00ff00', '#ffff00']
+    },
+    sunset: {
+        empty: '#ffecd1',
+        colors: ['#ffd3b6', '#ff9a9e', '#ff6b6b', '#ff0000']
+    },
+    ocean: {
+        empty: '#e3f2fd',
+        colors: ['#90caf9', '#42a5f5', '#1e88e5', '#0d47a1']
     }
 };
 
@@ -74,6 +86,12 @@ function createHeatmap(data, year, container) {
     
     // 计算年度统计
     const yearTotal = Object.values(data).reduce((sum, count) => sum + count, 0);
+    
+    // 使用 CountUp.js 库实现数字增长动画
+    new CountUp('yearTotal', 0, yearTotal, 0, 2.5, {
+        useEasing: true,
+        useGrouping: true
+    }).start();
     
     // 生成年份的所有日期
     const yearStart = new Date(year, 0, 1);
@@ -159,7 +177,8 @@ function createHeatmap(data, year, container) {
                 .style('left', (event.pageX + 10) + 'px')
                 .style('top', (event.pageY - 28) + 'px');
         })
-        .on('mouseout', () => d3.select('.tooltip').remove());
+        .on('mouseout', () => d3.select('.tooltip').remove())
+        .on('mouseenter', playHoverSound);
 
     // 添加调试日志
   //  console.log('Heatmap created for year:', year);
@@ -359,3 +378,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const exportBtn = document.getElementById('exportBtn');
     exportBtn.addEventListener('click', exportToImage);
 });
+
+function playHoverSound() {
+    const audio = new Audio('data:audio/mp3;base64,...'); // 添加简短的音效
+    audio.volume = 0.1;
+    audio.play();
+}

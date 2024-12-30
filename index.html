@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.0.7/countUp.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -39,6 +40,11 @@
             Made by <a href="https://github.com/linexy/memosheatmap" target="_blank">linexy</a>
         </footer>
     </div>
-    <script src="script.js"></script>
+    <div id="particles-js"></div>
+    <div class="loading-spinner" id="loading">
+        <div class="spinner"></div>
+        <div class="loading-text">加载中...</div>
+    </div>
+    <script type="module" src="script.js"></script>
 </body>
 </html>
