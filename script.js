@@ -15,27 +15,10 @@ const themes = {
     winter: {
         empty: '#ebedf0',
         colors: ['#b6e3ff', '#54aeff', '#0969da', '#0a3069']
-    },
-    neon: {
-        empty: '#1a1a1a',
-        colors: ['#ff00ff', '#00ffff', '#00ff00', '#ffff00']
-    },
-    sunset: {
-        empty: '#ffecd1',
-        colors: ['#ffd3b6', '#ff9a9e', '#ff6b6b', '#ff0000']
-    },
-    ocean: {
-        empty: '#e3f2fd',
-        colors: ['#90caf9', '#42a5f5', '#1e88e5', '#0d47a1']
     }
 };
 
 let currentTheme = 'github';
-
-// 添加当前用户变量
-//let currentUser = 'linexy';
-
-// 修改全局变量
 let currentDomain = 'https://memos.lzsay.com';
 
 function formatDate(date) {
@@ -87,7 +70,7 @@ function createHeatmap(data, year, container) {
     // 计算年度统计
     const yearTotal = Object.values(data).reduce((sum, count) => sum + count, 0);
     
-    // 直接显示统计数字，不使用 CountUp
+    // 直接显示统计数字
     const yearStats = document.createElement('div');
     yearStats.textContent = `${year}: ${yearTotal} 条发布`;
     yearStats.className = 'year-stats';
@@ -168,13 +151,7 @@ function createHeatmap(data, year, container) {
                 .style('left', (event.pageX + 10) + 'px')
                 .style('top', (event.pageY - 28) + 'px');
         })
-        .on('mouseout', () => d3.select('.tooltip').remove())
-        .on('mouseenter', playHoverSound);
-
-    // 添加调试日志
-  //  console.log('Heatmap created for year:', year);
-  //  console.log('Data:', data);
-  //  console.log('Container:', container);
+        .on('mouseout', () => d3.select('.tooltip').remove());
 }
 
 async function updateYears(selectedYears, domain) {
@@ -262,7 +239,6 @@ function initializeYearSelector() {
     updateYearRange();
 }
 
-// 修改生成按钮事件处理函数
 function initializeGenerateButton() {
     const generateBtn = document.getElementById('generateBtn');
     const userInput = document.getElementById('userInput');
@@ -295,7 +271,6 @@ function initializeGenerateButton() {
     });
 }
 
-// 修改主题切换函数
 function changeTheme(themeName) {
     if (themes[themeName]) {
         currentTheme = themeName;
@@ -309,55 +284,6 @@ function changeTheme(themeName) {
     }
 }
 
-// 添加导出图片功能
-function exportToImage() {
-    const heatmapDiv = document.getElementById('heatmap');
-    
-    // 创建一个临时的包装容器
-    const wrapper = document.createElement('div');
-    wrapper.style.background = 'white';
-    wrapper.style.padding = '20px';
-    wrapper.style.width = 'fit-content';
-    
-    // 添加标题
-    const title = document.createElement('h2');
-    title.textContent = 'Memos 发布热力图';
-    title.style.textAlign = 'center';
-    title.style.marginBottom = '20px';
-    wrapper.appendChild(title);
-    
-    // 克隆热力图内容
-    const clone = heatmapDiv.cloneNode(true);
-    wrapper.appendChild(clone);
-    
-    // 添加水印
-    const watermark = document.createElement('div');
-    watermark.style.textAlign = 'center';
-    watermark.style.marginTop = '10px';
-    watermark.style.color = '#666';
-    watermark.style.fontSize = '12px';
-    watermark.textContent = `Generated from https://hm.lzsay.com`;
-    wrapper.appendChild(watermark);
-    
-    // 将包装容器添加到文档中（但设置为不可见）
-    document.body.appendChild(wrapper);
-    
-    // 使用 html2canvas 将内容转换为图片
-    html2canvas(wrapper, {
-        backgroundColor: 'white',
-        scale: 2, // 提高导出图片质量
-    }).then(canvas => {
-        // 创建下载链接
-        const link = document.createElement('a');
-        link.download = `memos-heatmap-${new Date().getTime()}.png`;
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-        
-        // 清理临时元素
-        document.body.removeChild(wrapper);
-    });
-}
-
 // 初始化函数
 document.addEventListener('DOMContentLoaded', function() {
     initializeYearSelector();
@@ -366,23 +292,4 @@ document.addEventListener('DOMContentLoaded', function() {
     // 触发初始加载
     const currentYear = new Date().getFullYear();
     updateYears([currentYear], currentDomain);
-});
-
-function playHoverSound() {
-    const audio = new Audio('data:audio/mp3;base64,...'); // 添加简短的音效
-    audio.volume = 0.1;
-    audio.play();
-}
-
-// 移除 loading 元素
-function hideLoading() {
-    const loading = document.getElementById('loading');
-    if (loading) {
-        loading.style.display = 'none';
-    }
-}
-
-// 在初始化完成后隐藏加载动画
-document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(hideLoading, 1000); // 1秒后隐藏加载动画
 });
