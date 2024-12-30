@@ -230,22 +230,20 @@ function initializeYearSelector() {
     }
 
     // 添加年份范围选择器事件监听
-    function updateYearRange() {
+    async function updateYearRange() {
         const startYear = parseInt(startYearSelect.value);
         const endYear = parseInt(endYearSelect.value);
         
-        // 确保结束年份不小于开始年份
         if (endYear < startYear) {
             endYearSelect.value = startYear;
         }
         
-        // 生成年份范围数组（降序）
         const years = [];
         for (let year = Math.max(startYear, endYear); year >= Math.min(startYear, endYear); year--) {
             years.push(year);
         }
         
-        updateYears(years, currentDomain);
+        await updateYears(years, currentDomain);
     }
 
     startYearSelect.addEventListener('change', updateYearRange);
@@ -369,14 +367,18 @@ function exportToImage() {
     });
 }
 
-// 修改初始化函数，添加导出按钮事件监听
-document.addEventListener('DOMContentLoaded', () => {
-    initializeYearSelector();
-    initializeGenerateButton();
-    
-    // 添加导出按钮事件监听
-    const exportBtn = document.getElementById('exportBtn');
-    exportBtn.addEventListener('click', exportToImage);
+// 初始化函数
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        await initializeYearSelector();
+        await initializeGenerateButton();
+        
+        // 触发初始加载
+        const currentYear = new Date().getFullYear();
+        await updateYears([currentYear], currentDomain);
+    } catch (error) {
+        console.error('初始化失败:', error);
+    }
 });
 
 function playHoverSound() {
