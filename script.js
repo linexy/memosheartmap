@@ -19,7 +19,12 @@ const themes = {
 };
 
 let currentTheme = 'github';
-let currentDomain = 'https://memos.lzsay.com';
+
+// 添加当前用户变量
+//let currentUser = 'linexy';
+
+// 修改全局变量
+let currentDomain = 'https://example.com';
 
 function formatDate(date) {
     return d3.timeFormat('%Y-%m-%d')(date);
@@ -70,11 +75,11 @@ function createHeatmap(data, year, container) {
     // 计算年度统计
     const yearTotal = Object.values(data).reduce((sum, count) => sum + count, 0);
     
-    // 直接显示统计数字
-    const yearStats = document.createElement('div');
-    yearStats.textContent = `${year}: ${yearTotal} 条发布`;
-    yearStats.className = 'year-stats';
-    container.appendChild(yearStats);
+    // 使用 CountUp.js 库实现数字增长动画
+    new CountUp('yearTotal', 0, yearTotal, 0, 2.5, {
+        useEasing: true,
+        useGrouping: true
+    }).start();
     
     // 生成年份的所有日期
     const yearStart = new Date(year, 0, 1);
@@ -91,6 +96,15 @@ function createHeatmap(data, year, container) {
         .append('svg')
         .attr('width', width)
         .attr('height', height);
+
+    // 添加年度统计信息
+    svg.append('text')
+        .attr('class', 'year-stats')
+        .attr('x', margin.left)
+        .attr('y', 15)
+        .text(`${year}: ${yearTotal} 条发布`)
+        .style('font-size', '14px')
+        .style('fill', '#24292f');
 
     const g = svg.append('g')
         .attr('transform', `translate(${margin.left}, ${margin.top})`);
@@ -152,6 +166,11 @@ function createHeatmap(data, year, container) {
                 .style('top', (event.pageY - 28) + 'px');
         })
         .on('mouseout', () => d3.select('.tooltip').remove());
+
+    // 添加调试日志
+  //  console.log('Heatmap created for year:', year);
+  //  console.log('Data:', data);
+  //  console.log('Container:', container);
 }
 
 async function updateYears(selectedYears, domain) {
@@ -198,20 +217,22 @@ function initializeYearSelector() {
     }
 
     // 添加年份范围选择器事件监听
-    async function updateYearRange() {
+    function updateYearRange() {
         const startYear = parseInt(startYearSelect.value);
         const endYear = parseInt(endYearSelect.value);
         
+        // 确保结束年份不小于开始年份
         if (endYear < startYear) {
             endYearSelect.value = startYear;
         }
         
+        // 生成年份范围数组（降序）
         const years = [];
         for (let year = Math.max(startYear, endYear); year >= Math.min(startYear, endYear); year--) {
             years.push(year);
         }
         
-        await updateYears(years, currentDomain);
+        updateYears(years, currentDomain);
     }
 
     startYearSelect.addEventListener('change', updateYearRange);
@@ -239,6 +260,7 @@ function initializeYearSelector() {
     updateYearRange();
 }
 
+// 修改生成按钮事件处理函数
 function initializeGenerateButton() {
     const generateBtn = document.getElementById('generateBtn');
     const userInput = document.getElementById('userInput');
@@ -271,6 +293,7 @@ function initializeGenerateButton() {
     });
 }
 
+// 修改主题切换函数
 function changeTheme(themeName) {
     if (themes[themeName]) {
         currentTheme = themeName;
@@ -284,12 +307,61 @@ function changeTheme(themeName) {
     }
 }
 
-// 初始化函数
-document.addEventListener('DOMContentLoaded', function() {
+// 添加导出图片功能
+function exportToImage() {
+    const heatmapDiv = document.getElementById('heatmap');
+    
+    // 创建一个临时的包装容器
+    const wrapper = document.createElement('div');
+    wrapper.style.background = 'white';
+    wrapper.style.padding = '20px';
+    wrapper.style.width = 'fit-content';
+    
+    // 添加标题
+    const title = document.createElement('h2');
+    title.textContent = 'Memos 发布热力图';
+    title.style.textAlign = 'center';
+    title.style.marginBottom = '20px';
+    wrapper.appendChild(title);
+    
+    // 克隆热力图内容
+    const clone = heatmapDiv.cloneNode(true);
+    wrapper.appendChild(clone);
+    
+    // 添加水印
+    const watermark = document.createElement('div');
+    watermark.style.textAlign = 'center';
+    watermark.style.marginTop = '10px';
+    watermark.style.color = '#666';
+    watermark.style.fontSize = '12px';
+    watermark.textContent = `Generated from https://hm.lzsay.com`;
+    wrapper.appendChild(watermark);
+    
+    // 将包装容器添加到文档中（但设置为不可见）
+    document.body.appendChild(wrapper);
+    
+    // 使用 html2canvas 将内容转换为图片
+    html2canvas(wrapper, {
+        backgroundColor: 'white',
+        scale: 2, // 提高导出图片质量
+    }).then(canvas => {
+        // 创建下载链接
+        const link = document.createElement('a');
+        link.download = `memos-heatmap-${new Date().getTime()}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        
+        // 清理临时元素
+        document.body.removeChild(wrapper);
+    });
+}
+
+// 修改初始化函数，添加导出按钮事件监听
+document.addEventListener('DOMContentLoaded', () => {
     initializeYearSelector();
     initializeGenerateButton();
     
-    // 触发初始加载
-    const currentYear = new Date().getFullYear();
-    updateYears([currentYear], currentDomain);
+    // 添加导出按钮事件监听
+    const exportBtn = document.getElementById('exportBtn');
+    exportBtn.addEventListener('click', exportToImage);
 });

@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Memos 发布热力图</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="stylesheet" href="style.css">
     <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -30,8 +32,13 @@
                 <label class="selector-label">主题：</label>
                 <select id="themeSelect"></select>
             </div>
+            <button id="exportBtn" class="export-btn">导出图片</button>
         </div>
         <div id="heatmap"></div>
+        <div id="particles-js"></div>
+        <footer class="footer">
+            Made by <a href="https://github.com/linexy/memosheatmap" target="_blank">linexy</a>
+        </footer>
     </div>
     <script src="script.js"></script>
 </body>
