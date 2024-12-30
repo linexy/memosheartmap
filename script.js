@@ -68,7 +68,7 @@ async function fetchMemosData(year, domain) {
 
 function createHeatmap(data, year, container) {
     // 修改基本配置，增大方格大小
-    const cellSize = 12;
+    const cellSize = 16;
     const cellPadding = 2;
     const weekWidth = cellSize + cellPadding;
     
@@ -252,12 +252,12 @@ function initializeYearSelector() {
         changeTheme(e.target.value);
     });
 
-    // 设置默认值
+    // 设置默认值并只触发一次更新
     startYearSelect.value = currentYear;
     endYearSelect.value = currentYear;
     themeSelect.value = 'github';
 
-    // 触发初始更新
+    // 只在这里触发一次初始更新
     updateYearRange();
 }
 
@@ -317,6 +317,8 @@ function exportToImage() {
     wrapper.style.background = 'white';
     wrapper.style.padding = '20px';
     wrapper.style.width = 'fit-content';
+    wrapper.style.position = 'absolute';
+    wrapper.style.left = '-9999px';
     
     // 添加标题
     const title = document.createElement('h2');
@@ -338,31 +340,59 @@ function exportToImage() {
     watermark.textContent = `Generated from https://hm.lzsay.com`;
     wrapper.appendChild(watermark);
     
-    // 将包装容器添加到文档中（但设置为不可见）
+    // 将包装容器添加到文档中
     document.body.appendChild(wrapper);
     
     // 使用 html2canvas 将内容转换为图片
     html2canvas(wrapper, {
         backgroundColor: 'white',
-        scale: 2, // 提高导出图片质量
+        scale: 2,
+        logging: false,
     }).then(canvas => {
-        // 创建下载链接
-        const link = document.createElement('a');
-        link.download = `memos-heatmap-${new Date().getTime()}.png`;
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-        
-        // 清理临时元素
-        document.body.removeChild(wrapper);
+        try {
+            canvas.toBlob(blob => {
+                // 使用 URL.createObjectURL 创建临时 URL
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.download = `memos-heatmap-${new Date().getTime()}.png`;
+                link.href = url;
+                link.click();
+                
+                // 清理资源
+                setTimeout(() => {
+                    URL.revokeObjectURL(url);
+                    if (wrapper.parentNode) {
+                        wrapper.parentNode.removeChild(wrapper);
+                    }
+                }, 100);
+            }, 'image/png');
+        } catch (error) {
+            console.error('导出图片失败:', error);
+            alert('导出图片失败，请重试');
+        }
+    }).catch(error => {
+        console.error('生成图片失败:', error);
+        alert('生成图片失败，请重试');
+    }).finally(() => {
+        // 确保清理临时元素
+        if (wrapper.parentNode) {
+            wrapper.parentNode.removeChild(wrapper);
+        }
     });
 }
 
-// 修改初始化函数，添加导出按钮事件监听
-document.addEventListener('DOMContentLoaded', () => {
+// 初始化函数
+document.addEventListener('DOMContentLoaded', function() {
+    // 清空输入框
+    const userInput = document.getElementById('userInput');
+    if (userInput) {
+        userInput.value = '';
+    }
+    
     initializeYearSelector();
     initializeGenerateButton();
     
-    // 添加导出按钮事件监听
-    const exportBtn = document.getElementById('exportBtn');
-    exportBtn.addEventListener('click', exportToImage);
+    // 移除这里的初始加载，因为 initializeYearSelector 中已经会触发一次加载
+    // const currentYear = new Date().getFullYear();
+    // updateYears([currentYear], currentDomain);
 });

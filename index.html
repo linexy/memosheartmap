@@ -7,11 +7,13 @@
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="stylesheet" href="style.css">
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
     <div class="container">
         <h1>Memos 发布热力图</h1>
+        
+        <!-- 输入区域 -->
         <div class="user-input-container">
             <div class="input-group">
                 <label class="input-label">Memos网址：</label>
@@ -19,6 +21,8 @@
             </div>
             <button id="generateBtn" class="generate-btn">生成</button>
         </div>
+
+        <!-- 控制面板区域 -->
         <div class="selectors-container">
             <div class="selector-group">
                 <label class="selector-label">时间范围：</label>
@@ -34,7 +38,13 @@
             </div>
             <button id="exportBtn" class="export-btn">导出图片</button>
         </div>
-        <div id="heatmap"></div>
+
+        <!-- 热力图展示区域 -->
+        <div class="heatmap-container">
+            <div id="heatmap"></div>
+        </div>
+
+        <!-- 页脚区域 -->
         <footer class="footer">
             Made by <a href="https://github.com/linexy/memosheatmap" target="_blank">linexy</a>
         </footer>

@@ -1,23 +1,29 @@
 /* 添加全局样式 */
 body {
     margin: 0;
-    padding: 0;
-    height: 100vh;
-    overflow-x: hidden;
+    padding: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
 }
 
 .container {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
     max-width: 1200px;
     margin: 0 auto;
-    padding:0 20px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    backdrop-filter: blur(5px);
 }
 
 h1 {
+    margin: 0 0 30px;
+    color: #24292f;
+    font-size: 28px;
     text-align: center;
-    color: #333;
+    font-weight: 600;
+    letter-spacing: -0.5px;
 }
 
 #currentYear {
@@ -34,6 +40,9 @@ h1 {
     padding: 20px;
     background: white;
     margin-bottom: 20px;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
 }
 
 rect {
@@ -48,13 +57,15 @@ rect:hover {
 
 .tooltip {
     position: absolute;
-    padding: 10px;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 3px;
+    padding: 10px 14px;
+    font-size: 13px;
+    background: rgba(0,0,0,0.8);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     pointer-events: none;
     z-index: 1000;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 /* 添加年度统计样式 */
@@ -97,12 +108,12 @@ rect:hover {
 
 .year-range-selector select,
 #themeSelect {
-    padding: 6px 12px;
-    border-radius: 6px;
-    border: 1px solid #d0d7de;
-    font-size: 14px;
-    background-color: white;
+    padding: 8px 16px;
+    border: 2px solid #e1e4e8;
+    border-radius: 8px;
     cursor: pointer;
+    transition: all 0.3s ease;
+    background: white;
     min-width: 100px;
     color: #24292f;
 }
@@ -115,14 +126,14 @@ rect:hover {
 /* 统一悬停和焦点状态 */
 .year-range-selector select:hover,
 #themeSelect:hover {
-    border-color: #0969da;
+    border-color: #2da44e;
 }
 
 .year-range-selector select:focus,
 #themeSelect:focus {
     outline: none;
-    border-color: #0969da;
-    box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.3);
+    border-color: #2da44e;
+    box-shadow: 0 0 0 3px rgba(45, 164, 78, 0.1);
 }
 
 .year-container {
@@ -157,37 +168,40 @@ rect:hover {
 }
 
 #userInput {
-    padding: 8px 12px;
-    border-radius: 6px;
-    border: 1px solid #d0d7de;
+    padding: 12px 16px;
     font-size: 14px;
+    border: 2px solid #e1e4e8;
+    border-radius: 8px;
     width: 300px;
+    transition: all 0.3s ease;
     color: #24292f;
 }
 
 #userInput:hover {
-    border-color: #0969da;
+    border-color: #2da44e;
 }
 
 #userInput:focus {
     outline: none;
-    border-color: #0969da;
-    box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.3);
+    border-color: #2da44e;
+    box-shadow: 0 0 0 3px rgba(45, 164, 78, 0.1);
 }
 
 .generate-btn {
-    padding: 8px 16px;
-    border-radius: 6px;
-    border: none;
-    background-color: #2ea043;
-    color: white;
+    padding: 10px 20px;
     font-size: 14px;
+    font-weight: 500;
+    color: #ffffff;
+    background: linear-gradient(45deg, #2da44e, #3cc55c);
+    border: none;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: all 0.3s ease;
 }
 
 .generate-btn:hover {
-    background-color: #2c974b;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(45, 164, 78, 0.3);
 }
 
 .generate-btn:active {
@@ -196,17 +210,19 @@ rect:hover {
 
 .export-btn {
     padding: 8px 16px;
-    border-radius: 6px;
-    border: none;
-    background-color: #0969da;
-    color: white;
     font-size: 14px;
+    font-weight: 500;
+    color: #ffffff;
+    background: linear-gradient(45deg, #0969da, #2188ff);
+    border: none;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: all 0.3s ease;
 }
 
 .export-btn:hover {
-    background-color: #0858b9;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(9, 105, 218, 0.3);
 }
 
 .export-btn:active {
@@ -218,9 +234,6 @@ rect:hover {
     padding: 40px 0;
     color: #57606a;
     font-size: 14px;
-    position: relative;
-    width: 100%;
-    bottom: 0;
 }
 
 .footer a {
@@ -230,4 +243,28 @@ rect:hover {
 
 .footer a:hover {
     text-decoration: underline;
+}
+
+/* 添加平滑过渡效果 */
+* {
+    transition: all 0.2s ease;
+}
+
+/* 添加响应式设计 */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+    
+    .user-input-container {
+        flex-direction: column;
+    }
+    
+    #userInput {
+        width: 100%;
+    }
+    
+    .selectors-container {
+        flex-direction: column;
+    }
 }
